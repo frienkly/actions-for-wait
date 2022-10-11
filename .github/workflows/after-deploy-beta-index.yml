@@ -16,3 +16,15 @@ jobs:
 
       - name: List opreations
         run: gcloud firestore operations list
+
+      - name: Trigger Workflow
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.PAT_FOR_ACTIONS }}
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: 'frienkly',
+              repo: 'tangled-timeless-backend',
+              workflow_id: 'test-firestore-index-beta.yml',
+              ref: 'main',
+            })
