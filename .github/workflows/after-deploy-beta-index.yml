@@ -6,6 +6,7 @@ on:
 jobs:
   wait-for-deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v0
@@ -14,8 +15,8 @@ jobs:
           service_account_key: ${{ secrets.TIMELESS_BETA_FIREBASE_SA }}
           export_default_credentials: true
 
-      - name: List opreations
-        run: gcloud firestore operations list
+      - name: Wait index deploy
+        run: ./wait-deploy.sh
 
       - name: Trigger Workflow
         uses: actions/github-script@v6
